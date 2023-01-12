@@ -1,0 +1,14 @@
+#usersInUS = Get-AzureADUser -filter "Country eq 'United States'""
+#Pull a list of users who are missing country info, or missing their company info 
+$nonPMPCUsers = "Doug Wilson","Eric Friesen", 
+$nonUSUsers = 
+$users = Get-AzureADUser
+$users | Where-Object {[System.String]::IsNullOrEmpty($_.CompanyName)} | Where-object {$_.DisplayName -notin $nonPMPCUsers} | Set-AzureADUser -CompanyName "Patch My PC"
+$users | Where-Object {[System.String]::IsNullOrEmpty($_.Country)} | Where-object {$_.DisplayName -notin $nonUSUSers} | Set-AzureADUser -CompanyName "Patch My PC"
+$users | Where-Object {[System.String]::IsNullOrEmpty($_.Country)}
+ 
+
+
+#Users (Humans) need to have a first name and a last name, a company name, and a country 
+#If service account, leave it alone. 
+#if I get a list of users that have first name, last name, company name, country, ensure that no service accounts appear 
